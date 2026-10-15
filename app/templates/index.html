@@ -1,0 +1,53 @@
+{% extends "base.html" %} {% block content %}
+<h1 class="h3">Check a job posting</h1>
+
+<form method="post" novalidate>
+  {{ form.hidden_tag() }}
+  <div class="mb-3">
+    {{ form.text.label(class="form-label") }} {{ form.text(class="form-control"
+    + (" is-invalid" if form.text.errors else "")) }} {% for error in
+    form.text.errors %}
+    <div class="invalid-feedback">{{ error }}</div>
+    {% endfor %}
+    <div class="form-text d-flex justify-content-between">
+      <span>Paste the full text of a job posting or message</span>
+      <span id="char-count" aria-live="polite"></span>
+    </div>
+  </div>
+  <p class="text-body-secondary">
+    Please do not paste personal information such as your name, phone number,
+    Aadhaar, PAN or bank details.
+  </p>
+  <button type="submit" class="btn btn-primary">Check posting</button>
+</form>
+
+<script>
+  // clean all whitespaces before counting characters
+  const clean = (s) =>
+    s
+      .replace(/\r\n/g, "\n")
+      .replace(/[^\S\n]+/g, " ")
+      .replace(/ ?\n ?/g, "\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+  const box = document.getElementById("text");
+  const count = document.getElementById("char-count");
+  const update = () => {
+    count.textContent =
+      clean(box.value).length.toLocaleString("en-IN") + " / 10,000 characters";
+  };
+  box.addEventListener("input", update);
+  box.addEventListener("paste", (e) => {
+    e.preventDefault();
+    box.setRangeText(
+      clean(e.clipboardData.getData("text")),
+      box.selectionStart,
+      box.selectionEnd,
+      "end",
+    );
+    update();
+  });
+  update();
+</script>
+
+{% endblock %}

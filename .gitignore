@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+.env
+
+# runtime state
+instance/
+logs/
+backups/
+
+# large downloaded data
+data/raw/
+
+# no tests yet, will write it later
+tests/*

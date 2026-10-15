@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}JobCheck{% endblock %}</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand bg-body-tertiary mb-4">
+      <div class="container" style="max-width: 860px">
+        <a class="navbar-brand" href="{{ url_for('main.index') }}">JobCheck</a>
+        <div class="navbar-nav">
+          <a class="nav-link" href="{{ url_for('main.index') }}"
+            >Check a posting</a
+          >
+          <a class="nav-link" href="{{ url_for('main.history') }}">History</a>
+        </div>
+      </div>
+    </nav>
+    <main class="container mb-5" style="max-width: 860px">
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

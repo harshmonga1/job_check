@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}History{% endblock %}
+{% block content %}
+<h1 class="h3 mb-3">Past checks</h1>
+{% if page.items %}
+<div class="list-group mb-3">
+  {% for c in page.items %}
+  <a class="list-group-item list-group-item-action" href="{{ url_for('main.result', check_id=c.id) }}">
+    <div class="d-flex justify-content-between gap-2">
+      <span class="badge {{ 'text-bg-danger' if c.indicator == 'red_flags' else 'text-bg-secondary' }}">{{ c.label }}</span>
+      <small class="text-body-secondary">{{ c.created_at.strftime('%d %b %Y, %H:%M') }}</small>
+    </div>
+    <div class="text-truncate mt-1">{{ c.text }}</div>
+  </a>
+  {% endfor %}
+</div>
+{% if page.pages > 1 %}
+<nav>
+  <ul class="pagination">
+    <li class="page-item {{ '' if page.has_prev else 'disabled' }}">
+      <a class="page-link" href="{{ url_for('main.history', page=page.prev_num) if page.has_prev else '#' }}">Newer</a>
+    </li>
+    <li class="page-item disabled"><span class="page-link">Page {{ page.page }} of {{ page.pages }}</span></li>
+    <li class="page-item {{ '' if page.has_next else 'disabled' }}">
+      <a class="page-link" href="{{ url_for('main.history', page=page.next_num) if page.has_next else '#' }}">Older</a>
+    </li>
+  </ul>
+</nav>
+{% endif %}
+{% else %}
+<p>No checks yet. <a href="{{ url_for('main.index') }}">Check a posting</a></p>
+{% endif %}
+{% endblock %}

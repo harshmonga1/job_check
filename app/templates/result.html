@@ -1,0 +1,60 @@
+{% extends "base.html" %} {% block title %}Result {% endblock %} {%
+block content %} {% if check.indicator == "red_flags" %}
+<div class="alert alert-danger">
+  <h1 class="h4 alert-heading mb-0">{{ check.label }}</h1>
+</div>
+{% else %}
+<div class="alert alert-secondary">
+  <h1 class="h4 alert-heading">{{ check.label }}</h1>
+  <p class="mb-0">This does not mean the posting is safe.</p>
+</div>
+{% endif %} {% if flags %}
+<h2 class="h5">Red flags</h2>
+<ul class="list-group mb-4">
+  {% for rule_id, matches in flags.items() %}
+  <li class="list-group-item">
+    <div>{{ explanations.get(rule_id, rule_id) }}</div>
+    <small class="text-body-secondary">
+      Matched: {% for m in matches|unique %}<mark>{{ m }}</mark>{% if not
+      loop.last %}, {% endif %}{% endfor %}
+    </small>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+
+<h2 class="h5">Posting text</h2>
+<div class="border rounded p-3 mb-4" style="white-space: pre-wrap">
+  {{ highlighted }}
+</div>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <h2 class="h5 card-title">Before you respond to any job offer</h2>
+    <ul class="mb-0">
+      <li>Never pay money to get a job.</li>
+      <li>
+        Verify the opening on the company's official website or through its
+        official contact details.
+      </li>
+      <li>
+        Do not share Aadhaar, PAN or bank details before receiving a formal
+        offer.
+      </li>
+      <li>
+        Report suspected fraud on the National Cyber Crime Reporting Portal,
+        <a href="https://cybercrime.gov.in" rel="noopener">cybercrime.gov.in</a
+        >, or call the national cybercrime helpline, <strong>1930</strong>.
+      </li>
+    </ul>
+  </div>
+</div>
+
+<p class="small text-body-secondary">
+  JobCheck is a screening aid, not a verdict. It looks for common warning signs
+  cannot prove that a posting is genuine or fake.
+</p>
+<a class="btn btn-outline-primary" href="{{ url_for('main.index') }}"
+  >Check another posting</a
+>
+{% endblock %}
